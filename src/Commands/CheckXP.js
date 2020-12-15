@@ -28,17 +28,17 @@ module.exports = class extends command {
 			switch (member.rank) {
 				case '1st Quad':
 					if(total < 75000 && member.joined < ((new Date()).getUTCMilliseconds() - (7*24*60*60*1000))){
-						naughtyPlayers.set(mcapi.nameForUuid(member.uuid), total)
+						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (1st Quad)`, total)
 					}
 					break;
 				case '2nd Quad':
 					if(total < 50000 && member.joined < (new Date().getUTCMilliseconds() - (7*24*60*60*1000))){
-						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} - `, total)
+						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (2nd Quad)`, total)
 					}
 					break;
 				case 'Staff':
 					if(total < 30000){
-						naughtyPlayers.set(mcapi.nameForUuid(member.uuid), total)
+						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (2nd Quad)`, total)
 					}
 					break;
 				default:
@@ -51,8 +51,9 @@ module.exports = class extends command {
 }
 function buildMessage(map, message){
 	let description = '';
+	let i = 1;
 	for(const [key, value] of map){
-
+		description = description + `${i}. ${key} - ${value} GEXP. \n`
 	}
 }
 
