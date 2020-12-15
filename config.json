@@ -1,4 +1,5 @@
 {
   "prefix": ">",
-  "token": "NzY1MDEzMTM0OTM4MjEwMzU0.X4OoAA.shRMX_6viVIcioLStlVUIXFG1f8"
+  "token": "NzY1MDEzMTM0OTM4MjEwMzU0.X4OoAA.shRMX_6viVIcioLStlVUIXFG1f8",
+  "db_uri": "mongodb+srv://admin:WPmmHgWijtSdA3QG@cluster0.qfmfb.mongodb.net/Bot"
 }
