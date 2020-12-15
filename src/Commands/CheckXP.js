@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
-const command = require('../../Structures/Command.js');
+const command = require('../Structures/Command.js');
 const {Client} = require('@zikeji/hypixel');
 const discord = require('discord.js');
 const client = new Client('cb0ecbdb-a60e-4a30-bca4-f48d8e58a7fb');
 const mcapi = require('minecraft-api');
 
-// noinspection JSUnresolvedVariable
 module.exports = class extends command {
 
 	constructor(...args) {
@@ -19,7 +18,7 @@ module.exports = class extends command {
 		const guild = await client.guild.name('Intelligence Quotient');
 		const naughtyPlayers = new Map();
 
-		for await (const member of guild.members) {
+		for(const member of guild.members) {
 			console.log('checking data for ' + member.uuid);
 			let total = 0;
 			for(const date of Object.keys(member.expHistory)) {
@@ -55,12 +54,6 @@ function buildMessage(map, message){
 	let i = 1;
 	for(const [key, value] of map){
 		description = description + `${i}. ${key} - ${value} GEXP. \n`
-		i++
 	}
-	const embedBuilder = new discord.MessageEmbed()
-		.setColor("#00ff36")
-		.setDescription(description)
-		.setTitle("List of players to kick");
-	message.channel.send(embedBuilder).then(() => {});
 }
 

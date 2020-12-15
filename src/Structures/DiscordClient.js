@@ -1,6 +1,5 @@
-const {  Client, Collection} = require('discord.js');
+const { Client, Collection} = require('discord.js');
 const Util = require('./Util.js');
-const log = require('../../index')
 
 module.exports = class DiscordClient extends Client {
 
@@ -17,10 +16,8 @@ module.exports = class DiscordClient extends Client {
         this.aliases = new Collection();
 
         this.once('ready', () => {
-            this.user.setActivity("your XP counts and messages", {type: "WATCHING", url: "https://www.youtube.com/watch?v=V-_O7nl0Ii0"})
             console.log(`Logged in as ${this.user.username}!`);
         });
-
 
         this.on('message', async (message) => {
             const mentionRegex = new RegExp(`^<@!${this.user.id}>$`);
@@ -28,7 +25,7 @@ module.exports = class DiscordClient extends Client {
 
             if(!message.guild || message.author.bot) return;
 
-            if(message.content.match(mentionRegex)) await message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
+            if(message.content.match(mentionRegex)) message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
 
             const prefix = message.content.match(mentionRegexPrefix) ?
                 message.content.match(mentionRegexPrefix)[0] : this.prefix;
@@ -44,10 +41,7 @@ module.exports = class DiscordClient extends Client {
                 await command.run(message, args);
                 message.channel.stopTyping();
             }
-        });
-
-
-
+        })
     }
     validate(options){
         if(typeof options !== 'object') throw new TypeError('Options must be type of object');
@@ -65,18 +59,6 @@ module.exports = class DiscordClient extends Client {
         console.log(this.commands);
         await this.utils.loadCommands();
         await super.login(token);
-        console.log(this.commands.size);
-
-        while (true){
-            if(log.log.length > 1900) {
-                let channel = this.channels.fetch("788533520058155018");
-                let eb = new this.MessageEmbed()
-                    .setColor("#00ff36")
-                    .setDescription(log.log)
-                    .setTitle(`Log for ${new Date().toTimeString()}`)
-                channel.send(eb);
-                log.log = '';
-            }
-        }
+        console.log(this.commands.size)
     }
 }
