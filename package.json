@@ -10,6 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "mongoose": "^5.11.8"
+    "mongoose": "^5.11.8",
+    "glob": "^7.1.6",
+    "minecraft-api": "0.0.3",
+    "node-hypixel": "^1.0.1",
+    "path": "^0.12.7",
+    "util": "^0.12.3"
   }
 }
