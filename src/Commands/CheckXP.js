@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const command = require('../Structures/Command.js');
-const {Client} = require('@zikeji/hypixel');
+const Client = require('@zikeji/hypixel');
+const discClient = require('discord.js');
 // noinspection JSCheckFunctionSignatures
 const client = new Client(require("../../config.json").hypixel_api_key);
 const mcapi = require('minecraft-api');
@@ -27,18 +28,19 @@ module.exports = class extends command {
 
 			switch (member.rank) {
 				case '1st Quad':
-					if(total < 75000 && member.joined < ((new Date()).getUTCMilliseconds() - (7*24*60*60*1000))){
-						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (1st Quad)`, total)
+					if(total < 75000 && member.joined < ((new Date()).getTime() - (7*24*60*60*1000))){
+						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (${member.rank})`, total)
 					}
 					break;
+				case 'Senior':
 				case '2nd Quad':
-					if(total < 50000 && member.joined < (new Date().getUTCMilliseconds() - (7*24*60*60*1000))){
-						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (2nd Quad)`, total)
+					if(total < 50000 && (member.joined < (new Date().getTime() - (7*24*60*60*1000)))){
+						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (${member.rank})`, total)
 					}
 					break;
 				case 'Staff':
 					if(total < 30000){
-						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (2nd Quad)`, total)
+						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (${member.rank})`, total)
 					}
 					break;
 				default:
@@ -58,5 +60,10 @@ function buildMessage(map, message){
 	for(const [key, value] of map){
 		description = description + `${i}. ${key.toString()} - ${value.toString()} GEXP. \n`;
 	}
+	const eb = new discClient.MessageEmbed()
+		.setColor('#00ff36')
+		.setTitle('List of players to kick')
+		.setDescription(description);
+	message.channel.send(eb).then(() => {});
 }
 
