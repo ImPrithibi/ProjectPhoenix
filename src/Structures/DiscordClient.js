@@ -28,10 +28,7 @@ module.exports = class DiscordClient extends Client {
             const mentionRegexPrefix = new RegExp(`^<@!${this.user.id}> `)
 
             if(!message.guild || message.author.bot) return;
-            if(!(message.member.roles.has('480358874839252992'))) {
-                await message.channel.send("You are not a high enough role to use this.");
-                return;
-            }
+
 
             if(message.content.match(mentionRegex)) await message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
 
@@ -44,6 +41,10 @@ module.exports = class DiscordClient extends Client {
 //
             const command = this.commands.get(cmd.toLowerCase()) || this.commands.get(this.aliases.get(cmd.toLowerCase()));
             if(command) {
+                if(!(message.member.roles.has('480358874839252992'))) { 
+                        await message.channel.send("You are not a high enough role to use this."); 
+                        return;
+                }
                 // noinspection ES6MissingAwait
                 message.channel.startTyping();
                 await command.run(message, args, this, this.database);
