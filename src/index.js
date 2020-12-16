@@ -11,8 +11,6 @@ client.start();
 client.UserUUIDCache = new Collection();
 
 
-
-
 //Minecraft bot stuff starts here, will be moved later
 let bot = makeBot();
 let log = '';
@@ -22,19 +20,23 @@ function makeBot(){
         host: 'IQOP.hypixel.net',
         port: 25565,
         version: '1.12.2',
-        username: process.env.USERNAME,
-        password: process.env.PASSWORD
+        username: 'atr10605@yahoo.com',
+        password: 'iOTTIa3*',
+        keepAlive: true,
+        colorsEnabled: false
     })
 }
 
 //sends to limbo
 bot.once('connect', () => {
-    setInterval(() => {
-        bot.chat('/achat §c');
-    }, 1000);
-
+    console.log("Mineflayer connected");
     bot.chatAddPattern(/^(.+)> (.+)/, 'guildFilter');
 });
+
+bot.once('spawn', () => {
+    console.log("Mineflayer spawned");
+    bot.chat('/achat §c');
+})
 
 //Logger
 bot.on('guildFilter', (_guild, message) => {
@@ -55,14 +57,23 @@ let joinMessages = [
 ]
 
 //Join message
-bot.on('message', (message) => {
-    if(message.contains('joined the guild')){
+bot.on('chat', (username, message) => {
+
+    if (bot.username === username) return;
+
+    console.log(message);
+
+    console.log(message.includes("joined the guild"))
+
+    if(message.includes('joined the guild')){
         if(message.startsWith('[')){
             let playerName = message.split(' ')[1];
-            bot.chat(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+            // console.log(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+            bot.chat("/gc " + joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
         } else {
             let playerName = message.split(' ')[0];
-            bot.chat(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+            // console.log(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName))
+            bot.chat("/gc " + joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
         }
     }
 });
