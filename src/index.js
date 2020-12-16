@@ -18,7 +18,7 @@ let log = '';
 
 function makeBot(){
     return minef.createBot({
-        host: 'hypixel.net',
+        host: 'mc.hypixel.net',
         port: 25565,
         username: 'qAdam',
         password: 'test',
