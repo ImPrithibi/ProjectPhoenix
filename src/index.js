@@ -12,23 +12,31 @@ const minef = require('mineflayer');
 client.start();
 
 const db = new Database(Config.db_uri);
-let log = '';
+
+
 
 //Minecraft bot stuff starts here, will be moved later
-const bot = minef.createBot({
-    username:       'qAdam',
-    password:       'test',
-    version:        '1.8',
-    host:           'hypixel.net',
-    port:           25565,
-    keepAlive:      true,
-    colorsEnabled:  false
+let bot = makeBot();
+let log = '';
 
-});
+function makeBot(){
+    return minef.createBot({
+        host: 'hypixel.net',
+        port: 25565,
+        username: 'qAdam',
+        password: 'test',
+        keepAlive: true,
+        colorsEnabled: false,
+    })
+}
+//sends to limbo
 bot.once('connect', () => {
     bot.chat('/achat §c');
 });
+
 bot.chatAddPattern(/^(.+)> (.+)/, 'guildFilter');
+
+//Logger
 bot.on('guildFilter', (_guild, message) => {
     log = log + message + '\n';
     if(log.length > 1900){
@@ -36,3 +44,35 @@ bot.on('guildFilter', (_guild, message) => {
     }
 })
 
+let joinMessages = [
+    '%n just joined the server - glhf!', '%n just joined. Everyone, look busy!', '%n just joined. Can I get a heal?',
+    '%n joined your party.', '%n joined. You must construct additional pylons.', 'Ermagherd. %n is here.', 'Welcome, %n. Stay awhile and listen.',
+    'Welcome, %n. We were expecting you ;)', 'Welcome, %n. We hope you brought pizza.', 'Welcome %n. Leave your weapons by the door.',
+    'A wild %n appeared.', 'Swoooosh. %n just landed.', 'Brace yourselves. %n just joined the guild.', '%n just joined. Hide your bananas.',
+    '%n just arrived. Seems OP - please nerf.', '%n just slid into the guild.', 'A %n has spawned in the server.', 'Big %n showed up!',
+    'Where’s %n? In the guild!',
+]
+
+//Join message
+bot.on('message', (message) => {
+    if(message.contains('joined the guild')){
+        if(message.startsWith('[')){
+            let playerName = message.split(' ')[1];
+            bot.chat(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+        } else {
+            let playerName = message.split(' ')[0];
+            bot.chat(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+        }
+    }
+});
+
+//auto-reconnect
+bot.on('end', () => {
+    bot = makeBot();
+})
+
+//sendMessagesOnCommand
+function sendMessage(gMessage){
+    bot.chat(gMessage);
+}
+module.exports = {sendMessage};

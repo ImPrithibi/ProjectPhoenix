@@ -19,7 +19,7 @@ module.exports = class extends command {
 		const naughtyPlayers = new Map();
 
 		for(const member of guild.members) {
-			console.log('checking data for ' + member.uuid);
+			console.log('checking data for ' + await mcapi.nameForUuid(member.uuid));
 			let total = 0;
 			for(const date of Object.keys(member.expHistory)) {
 				total += member.expHistory[date];
@@ -46,11 +46,10 @@ module.exports = class extends command {
 			}
 		}
 
-		console.log(naughtyPlayers);
 
 		const sortedPlayers = new Map(naughtyPlayers.entries().sort((a, b) => a[0] - b[0]));
 		buildMessage(sortedPlayers, message);
-		console.log(sortedPlayers);
+
 	}
 }
 function buildMessage(map, message){
