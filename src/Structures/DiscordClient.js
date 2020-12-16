@@ -28,7 +28,7 @@ module.exports = class DiscordClient extends Client {
             const mentionRegexPrefix = new RegExp(`^<@!${this.user.id}> `)
 
             if(!message.guild || message.author.bot) return;
-            if(!(message.member.roles.highest.name === 'Staff') || !(message.member.roles.highest.name === 'Guild Master')) {
+            if(!(message.member.roles.has('480358874839252992'))) {
                 await message.channel.send("You are not a high enough role to use this.");
                 return;
             }
