@@ -42,6 +42,7 @@ module.exports = class DiscordClient extends Client {
 //
             const command = this.commands.get(cmd.toLowerCase()) || this.commands.get(this.aliases.get(cmd.toLowerCase()));
             if(command) {
+                console.log(message.member.roles.highest.name);
                 if(command.requireStaff && (!(message.member.roles.highest.name === 'Staff') || !(message.member.roles.highest.name === 'Guild Master'))) {
                     sendErrorMessage(message.channel, "You are not a high enough role to use this.")
                     return;
@@ -66,10 +67,8 @@ module.exports = class DiscordClient extends Client {
     }
     // noinspection ES6MissingAwait
     async start(token = this.token){
-        console.log(this.commands);
         await this.utils.loadCommands();
         await super.login(token);
-        console.log(this.commands.size)
     }
     async sendLog(log) {
         let channel = await this.channels.fetch('788533520058155018');

@@ -3,6 +3,7 @@ const { Collection } = require("discord.js");
 const Client = require('./Structures/DiscordClient.js');
 const Config = require('../config.json');
 const minef = require('mineflayer');
+const RoleSync = require("./modules/RoleSync/RoleSync");
 const client = new Client(Config);
 // noinspection JSIgnoredPromiseFromCall
 client.start();
@@ -20,8 +21,8 @@ function makeBot(){
     return minef.createBot({
         host: 'hypixel.net',
         port: 25565,
-        username: 'qAdam',
-        password: 'test',
+        username: 'atr10605@yahoo.com',
+        password: 'iOTTIa3',
         keepAlive: true,
         colorsEnabled: false,
     })
@@ -74,3 +75,5 @@ function sendMessage(gMessage){
     bot.chat(gMessage);
 }
 module.exports = {sendMessage};
+
+// const rs = new RoleSync();
