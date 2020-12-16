@@ -30,7 +30,7 @@ module.exports = class DiscordClient extends Client {
 
             if(!message.guild || message.author.bot) return;
 
-            if (!message.content.startsWith(this.prefix)) return; 
+            if (!message.content.startsWith(this.prefix)) return;
 
             // if(message.content.match(mentionRegex)) await message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
 

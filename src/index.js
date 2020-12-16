@@ -47,7 +47,8 @@ let joinMessages = [
     'Welcome, %n. We were expecting you ;)', 'Welcome, %n. We hope you brought pizza.', 'Welcome %n. Leave your weapons by the door.',
     'A wild %n appeared.', 'Swoooosh. %n just landed.', 'Brace yourselves. %n just joined the guild.', '%n just joined. Hide your bananas.',
     '%n just arrived. Seems OP - please nerf.', '%n just slid into the guild.', 'A %n has spawned in the server.', 'Big %n showed up!',
-    'Where’s %n? In the guild!', //TODO: FINISH LIST
+    'Where’s %n? In the guild!', 'DiscordUser123 hopped into the server. Kangaroo!!', 'DiscordUser123 just showed up. Hold my beer.', 'Challenger approaching - DiscordUser123 has appeared!',
+    'It\'s a bird! It\'s a plane! Nevermind, it\'s just DiscordUser123.'
 ]
 
 //Join message
