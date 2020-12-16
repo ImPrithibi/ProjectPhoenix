@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+let { compareObjects } = require("../ObjectUtils/ObjectUtils");
+let DataSimilarError = require("./DataSimilarError");
 
 class Database {
     constructor(databaseURI, parameters = {}) {
@@ -28,10 +30,19 @@ class Database {
     }
 
     // if data already exists choose to override otherwise set the data
-    async set(schema, data, override, query) {
+    async set(schema, data, override, query, args = {}) {
         if (await schema.exists(query)) {
             if (override) {
                 let doc = await schema.findOne(query);
+
+                if (args.checkData) {
+                    let isNotSimilar = false;
+                    for (let i = 0; i < args.checkData; i++) {
+                        if (doc[args.checkData[i]] !== data[args.checkData[i]]) isNotSimilar = true;
+                    }
+
+                    if (!isNotSimilar) throw new DataSimilarError();
+                }
                 doc.overwrite(data);
                 return doc.save();
             }

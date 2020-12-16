@@ -42,7 +42,7 @@ module.exports = class DiscordClient extends Client {
             if(command) {
                 // noinspection ES6MissingAwait
                 message.channel.startTyping();
-                await command.run(message, args, this.database);
+                await command.run(message, args, this, this.database);
                 message.channel.stopTyping();
             }
         })

@@ -8,6 +8,8 @@ const minecraftapi = require("minecraft-api");
 
 const UserLinkData = require("../Schemas/UserLinkData");
 
+let DataSimilarError = require("../modules/DatabaseModule/DataSimilarError");
+
 // noinspection JSUnusedLocalSymbols
 module.exports = class extends Command {
     constructor(...args) {
@@ -17,7 +19,7 @@ module.exports = class extends Command {
         });
     }
 
-    async run(message, args, database) {
+    async run(message, args, bot, database) {
         if (args.length < 1) {
             return sendErrorMessage(message.channel, "Please specify the username that you would like to link to. ");
         }
@@ -25,15 +27,23 @@ module.exports = class extends Command {
 
         let failed = false;
 
-        let uuid = await minecraftapi.uuidForName(username)
-            .catch((err) => {
-                if (err) failed = true;
-            });
+        let uuid;
+
+        if (!bot.UserUUIDCache.has(username)) {
+            uuid = bot.UserUUIDCache.get(username);
+        } else {
+            uuid = await minecraftapi.uuidForName(username)
+                .catch((err) => {
+                    if (err) failed = true;
+                });
+        }
 
         if (failed) return sendErrorMessage(message.channel, "There was an error while contacting the API. Please try again later. ");
 
 
         if (!uuid) return sendErrorMessage(message.channel, "Error: This is an invalid username. ");
+
+        if (!bot.UserUUIDCache.has(username)) bot.UserUUIDCache.set(username, uuid);
 
         let playerData = await client.player.uuid(uuid);
 
@@ -55,13 +65,20 @@ module.exports = class extends Command {
         database.set(UserLinkData, new UserLinkData({
             "DiscordID": message.member.id,
             "UUID": uuid
-        }), true, {"DiscordID": message.member.id})
+        }), true, {"DiscordID": message.member.id}, {"checkData": ["UUID"]})
             .then(() => {
                 sendSuccessMessage(message.channel, `Your discord has been linked/updated with the minecraft account, ${playerData.displayname}!`);
             })
-            .catch(() => {
+            .catch((err) => {
+                if (err instanceof DataSimilarError) {
+                    return sendErrorMessage(message.channel, `Your discord is already linked with the minecraft account, ${playerData.displayname}!`);
+                }
                 sendErrorMessage(message.channel, "An error occurred when trying to add data to the database");
-            })
+            });
+
+
+        // check if user is in IQ
+
     }
 
 };

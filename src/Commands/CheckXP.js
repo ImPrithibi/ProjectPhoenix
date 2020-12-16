@@ -4,6 +4,8 @@ const {Client} = require('@zikeji/hypixel');
 const client = new Client(require("../../config.json").hypixel_api_key);
 const mcapi = require('minecraft-api');
 
+const { customMessage } = require("../modules/MessageUtils/MessageUtils");
+
 module.exports = class extends command {
 
 	constructor(...args) {
@@ -13,12 +15,10 @@ module.exports = class extends command {
 		});
 	}
 	async run(message, _args) {
-		console.log('running');
 		const guild = await client.guild.name('Intelligence Quotient');
 		const naughtyPlayers = new Map();
 
 		for(const member of guild.members) {
-			console.log('checking data for ' + member.uuid);
 			let total = 0;
 			for(const date of Object.keys(member.expHistory)) {
 				total += member.expHistory[date];
@@ -26,13 +26,18 @@ module.exports = class extends command {
 
 			switch (member.rank) {
 				case '1st Quad':
-					if(total < 75000 && member.joined < ((new Date()).getUTCMilliseconds() - (7*24*60*60*1000))){
+					if(total < 75000 && member.joined < ((new Date()).getTime() - (7*24*60*60*1000))){
 						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (1st Quad)`, total)
 					}
 					break;
 				case '2nd Quad':
-					if(total < 50000 && member.joined < (new Date().getUTCMilliseconds() - (7*24*60*60*1000))){
+					if(total < 50000 && member.joined < (new Date().getTime() - (7*24*60*60*1000))){
 						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (2nd Quad)`, total)
+					}
+					break;
+				case 'Senior':
+					if(total < 50000 && member.joined < (new Date().getTime() - (7*24*60*60*1000))){
+						naughtyPlayers.set(`${await mcapi.nameForUuid(member.uuid)} (Senior)`, total)
 					}
 					break;
 				case 'Staff':
@@ -45,18 +50,19 @@ module.exports = class extends command {
 			}
 		}
 
-		console.log(naughtyPlayers);
 
-		const sortedPlayers = new Map(naughtyPlayers.entries().sort((a, b) => a[0] - b[0]));
+		const sortedPlayers = new Map([...naughtyPlayers.entries()].sort((a, b) => a[1]-b[1]));
 		buildMessage(sortedPlayers, message);
-		console.log(sortedPlayers);
 	}
 }
 function buildMessage(map, message){
 	let description = '';
 	let i = 1;
 	for(const [key, value] of map){
-		description = description + `${i}. ${key} - ${value} GEXP. \n`
+		description = description + `${i}. \`${key}\` - ${value} GEXP. \n`
+		i++;
 	}
+
+	customMessage(message.channel, "GREEN", description);
 }
 
