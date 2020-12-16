@@ -17,6 +17,7 @@
     "mineflayer": "^2.37.1",
     "mongoose": "^5.11.8",
     "node-fetch": "^2.6.1",
+    "mineflayer": "^2.37.1",
     "node-hypixel": "^1.0.1",
     "path": "^0.12.7",
     "util": "^0.12.3"
