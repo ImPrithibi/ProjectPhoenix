@@ -24,8 +24,12 @@ module.exports = class DiscordClient extends Client {
             const mentionRegexPrefix = new RegExp(`^<@!${this.user.id}> `)
 
             if(!message.guild || message.author.bot) return;
+            if(!(message.member.roles.highest.name === 'Staff') || !(message.member.roles.highest.name === 'Guild Master')) {
+                await message.channel.send("You are not a high enough role to use this.");
+                return;
+            }
 
-            if(message.content.match(mentionRegex)) message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
+            if(message.content.match(mentionRegex)) await message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
 
             const prefix = message.content.match(mentionRegexPrefix) ?
                 message.content.match(mentionRegexPrefix)[0] : this.prefix;
@@ -60,5 +64,13 @@ module.exports = class DiscordClient extends Client {
         await this.utils.loadCommands();
         await super.login(token);
         console.log(this.commands.size)
+    }
+    sendLog(log){
+        let channel = this.channels.fetch('788533520058155018');
+        let eb = new this.MessageEmbed()
+            .setColor("#00ff36")
+            .setDescription(log)
+            .setTitle(`Log of ${new Date().toTimeString()}`);
+        channel.send(eb);
     }
 }
