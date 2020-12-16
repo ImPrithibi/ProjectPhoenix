@@ -47,10 +47,10 @@ bot.on('guildFilter', (_guild, message) => {
 let joinMessages = [
     '%n just joined the server - glhf!', '%n just joined. Everyone, look busy!', '%n just joined. Can I get a heal?',
     '%n joined your party.', '%n joined. You must construct additional pylons.', 'Ermagherd. %n is here.', 'Welcome, %n. Stay awhile and listen.',
-    'Welcome, %n. We were expecting you ;)', 'Welcome, %n. We hope you brought pizza.', 'Welcome DiscordUser123. Leave your weapons by the door.',
-    'A wild DiscordUser123 appeared.', 'Swoooosh. DiscordUser123 just landed.', 'Brace yourselves. DiscordUser123 just joined the guild.', 'DiscordUser123 just joined. Hide your bananas.',
-    'DiscordUser123 just arrived. Seems OP - please nerf.', 'DiscordUser123 just slid into the guild.', 'A DiscordUser123 has spawned in the server.', 'Big DiscordUser123 showed up!',
-    'Where’s DiscordUser123? In the guild!',
+    'Welcome, %n. We were expecting you ;)', 'Welcome, %n. We hope you brought pizza.', 'Welcome %n. Leave your weapons by the door.',
+    'A wild %n appeared.', 'Swoooosh. %n just landed.', 'Brace yourselves. %n just joined the guild.', '%n just joined. Hide your bananas.',
+    '%n just arrived. Seems OP - please nerf.', '%n just slid into the guild.', 'A %n has spawned in the server.', 'Big %n showed up!',
+    'Where’s %n? In the guild!',
 ]
 
 //Join message
