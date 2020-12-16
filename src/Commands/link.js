@@ -15,7 +15,8 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             aliases: [],
-            description: "Links discord and minecraft"
+            description: "Links discord and minecraft",
+            requireStaff: false
         });
     }
 
@@ -29,7 +30,7 @@ module.exports = class extends Command {
 
         let uuid;
 
-        if (!bot.UserUUIDCache.has(username)) {
+        if (bot.UserUUIDCache.has(username)) {
             uuid = bot.UserUUIDCache.get(username);
         } else {
             uuid = await minecraftapi.uuidForName(username)

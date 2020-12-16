@@ -12,7 +12,8 @@ module.exports = class extends command {
 	constructor(...args) {
 		super(...args, {
 			aliases: ['cxp'],
-			description: 'Checks the guild XP'
+			description: 'Checks the guild XP',
+			requireStaff: true
 		});
 	}
 	async run(message, _args) {

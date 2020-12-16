@@ -2,6 +2,7 @@ const { Client, Collection} = require('discord.js');
 const Util = require('./Util.js');
 const Database = require("../modules/DatabaseModule/Database");
 const { db_uri } = require("../../config.json");
+const { sendErrorMessage } = require("../modules/MessageUtils/MessageUtils");
 
 module.exports = class DiscordClient extends Client {
 
@@ -24,26 +25,27 @@ module.exports = class DiscordClient extends Client {
         });
 
         this.on('message', async (message) => {
-            const mentionRegex = new RegExp(`^<@!${this.user.id}>$`);
-            const mentionRegexPrefix = new RegExp(`^<@!${this.user.id}> `)
+            // const mentionRegex = new RegExp(`^<@!${this.user.id}>$`);
+            // const mentionRegexPrefix = new RegExp(`^<@!${this.user.id}> `)
 
             if(!message.guild || message.author.bot) return;
-            if(!(message.member.roles.highest.name === 'Staff') || !(message.member.roles.highest.name === 'Guild Master')) {
-                await message.channel.send("You are not a high enough role to use this.");
-                return;
-            }
 
-            if(message.content.match(mentionRegex)) await message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
+            if (!message.content.startsWith(this.prefix)) return; 
 
-            const prefix = message.content.match(mentionRegexPrefix) ?
-                message.content.match(mentionRegexPrefix)[0] : this.prefix;
+            // if(message.content.match(mentionRegex)) await message.channel.send(`My prefix for ${message.guild.name} is \`${this.prefix}\`.`);
+
+            // const prefix = message.content.match(mentionRegexPrefix) ? message.content.match(mentionRegexPrefix)[0] : this.prefix;
 
 
             //eslint-disable-next-line no-unused-vars
-            const [cmd, ...args] = message.content.slice(prefix.length).trim().split(/ +/g);
+            const [cmd, ...args] = message.content.slice(this.prefix.length).trim().split(/ +/g);
 //
             const command = this.commands.get(cmd.toLowerCase()) || this.commands.get(this.aliases.get(cmd.toLowerCase()));
             if(command) {
+                if(command.requireStaff && (!(message.member.roles.highest.name === 'Staff') || !(message.member.roles.highest.name === 'Guild Master'))) {
+                    sendErrorMessage(message.channel, "You are not a high enough role to use this.")
+                    return;
+                }
                 // noinspection ES6MissingAwait
                 message.channel.startTyping();
                 await command.run(message, args, this, this.database);
@@ -69,8 +71,8 @@ module.exports = class DiscordClient extends Client {
         await super.login(token);
         console.log(this.commands.size)
     }
-    sendLog(log){
-        let channel = this.channels.fetch('788533520058155018');
+    async sendLog(log) {
+        let channel = await this.channels.fetch('788533520058155018');
         let eb = new this.MessageEmbed()
             .setColor("#00ff36")
             .setDescription(log)

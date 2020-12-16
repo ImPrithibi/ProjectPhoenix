@@ -27,7 +27,6 @@ function makeBot(){
     })
 }
 
-console.log(bot);
 //sends to limbo
 bot.once('connect', () => {
     bot.chat('/achat §c');

@@ -7,7 +7,8 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ['ta'],
-            description: 'Toggles Admin Commands being used on the bot'
+            description: 'Toggles Admin Commands being used on the bot',
+            requireStaff: true
         });
     }
 
