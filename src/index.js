@@ -19,19 +19,20 @@ let log = '';
 
 function makeBot(){
     return minef.createBot({
-        host: 'mc.hypixel.net',
+        host: 'IQOP.hypixel.net',
         port: 25565,
-        username: 'atr10605@yahoo.com',
-        password: 'iOTTIa3',
-        keepAlive: true,
-        colorsEnabled: false,
         version: '1.12.2',
+        username: process.env.USERNAME,
+        password: process.env.PASSWORD
     })
 }
 
 //sends to limbo
 bot.once('connect', () => {
-    bot.chat('/achat §c');
+    setInterval(() => {
+        bot.chat('/achat §c');
+    }, 1000);
+
     bot.chatAddPattern(/^(.+)> (.+)/, 'guildFilter');
 });
 
