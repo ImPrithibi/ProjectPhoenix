@@ -24,6 +24,7 @@ function makeBot(){
         password: 'test',
         keepAlive: true,
         colorsEnabled: false,
+        version: ‘1.12’,
     })
 }
 
