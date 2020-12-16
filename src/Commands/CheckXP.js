@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const command = require('../Structures/Command.js');
 const {Client} = require('@zikeji/hypixel');
+// noinspection JSCheckFunctionSignatures
 const client = new Client(require("../../config.json").hypixel_api_key);
 const mcapi = require('minecraft-api');
 
@@ -56,7 +57,7 @@ function buildMessage(map, message){
 	let description = '';
 	let i = 1;
 	for(const [key, value] of map){
-		description = description + `${i}. ${key} - ${value} GEXP. \n`
+		description = description + `${i}. ${key.toString()} - ${value.toString()} GEXP. \n`;
 	}
 }
 
