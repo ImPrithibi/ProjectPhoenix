@@ -8,7 +8,6 @@ client.start();
 const Database = require("./modules/DatabaseModule/Database")
 const minef = require('mineflayer');
 
-const client = new Client(Config);
 // noinspection JSIgnoredPromiseFromCall
 client.start();
 
@@ -17,11 +16,14 @@ let log = '';
 
 //Minecraft bot stuff starts here, will be moved later
 const bot = minef.createBot({
-    username: 'qAdam',
-    password: 'test',
-    version:'1.8',
-    host:'hypixel.net',
-    port:25565
+    username:       'qAdam',
+    password:       'test',
+    version:        '1.8',
+    host:           'hypixel.net',
+    port:           25565,
+    keepAlive:      true,
+    colorsEnabled:  false
+
 });
 bot.once('connect', () => {
     bot.chat('/achat §c');
