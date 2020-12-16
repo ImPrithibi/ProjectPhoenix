@@ -19,12 +19,13 @@ let log = '';
 
 function makeBot(){
     return minef.createBot({
-        host: 'hypixel.net',
+        host: 'mc.hypixel.net',
         port: 25565,
         username: 'atr10605@yahoo.com',
         password: 'iOTTIa3',
         keepAlive: true,
         colorsEnabled: false,
+        version: '1.12.2',
     })
 }
 
