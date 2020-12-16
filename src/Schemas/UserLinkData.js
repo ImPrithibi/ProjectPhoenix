@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const schema = new mongoose.Schema({
     DiscordID: String,
     UUID: String

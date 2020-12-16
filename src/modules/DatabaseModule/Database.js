@@ -9,14 +9,35 @@ class Database {
     _initConnection(databaseURI, parameters) {
         mongoose.connect(databaseURI, parameters);
 
-        this.db = mongoose.connection;
+        this.connection = mongoose.connection;
 
         let self = this;
 
-        this.db.once('open', () => {
+        this.connection.once('open', () => {
             self.connected = true;
-            console.log("Database is connected. ")
+            console.log("Database is connected. ");
         });
+    }
+
+    async save(data) {
+        return data.save();
+    }
+
+    async find(schema, query) {
+        return await schema.find(query);
+    }
+
+    // if data already exists choose to override otherwise set the data
+    async set(schema, data, override, query) {
+        if (await schema.exists(query)) {
+            if (override) {
+                let doc = await schema.findOne(query);
+                doc.overwrite(data);
+                return doc.save();
+            }
+        } else {
+            return this.save(data);
+        }
     }
 }
 

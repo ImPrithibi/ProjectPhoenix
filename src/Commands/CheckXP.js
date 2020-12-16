@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 const command = require('../Structures/Command.js');
 const {Client} = require('@zikeji/hypixel');
-const discord = require('discord.js');
-const client = new Client('cb0ecbdb-a60e-4a30-bca4-f48d8e58a7fb');
+const client = new Client(require("../../config.json").hypixel_api_key);
 const mcapi = require('minecraft-api');
 
 module.exports = class extends command {
@@ -13,7 +12,7 @@ module.exports = class extends command {
 			description: 'Checks the guild XP'
 		});
 	}
-	async run(message, ..._args) {
+	async run(message, _args) {
 		console.log('running');
 		const guild = await client.guild.name('Intelligence Quotient');
 		const naughtyPlayers = new Map();
@@ -45,8 +44,12 @@ module.exports = class extends command {
 					break;
 			}
 		}
-		const sortedPlayers = new Map([naughtyPlayers.entries()].sort((a, b) => a[1] - b[1]));
+
+		console.log(naughtyPlayers);
+
+		const sortedPlayers = new Map(naughtyPlayers.entries().sort((a, b) => a[0] - b[0]));
 		buildMessage(sortedPlayers, message);
+		console.log(sortedPlayers);
 	}
 }
 function buildMessage(map, message){

@@ -1,5 +1,7 @@
 const { Client, Collection} = require('discord.js');
 const Util = require('./Util.js');
+const Database = require("../modules/DatabaseModule/Database");
+const { db_uri } = require("../../config.json");
 
 module.exports = class DiscordClient extends Client {
 
@@ -14,6 +16,8 @@ module.exports = class DiscordClient extends Client {
         this.utils = new Util(this);
 
         this.aliases = new Collection();
+
+        this.database = new Database(db_uri, {useNewUrlParser: true});
 
         this.once('ready', () => {
             console.log(`Logged in as ${this.user.username}!`);
@@ -42,7 +46,7 @@ module.exports = class DiscordClient extends Client {
             if(command) {
                 // noinspection ES6MissingAwait
                 message.channel.startTyping();
-                await command.run(message, args);
+                await command.run(message, args, this.database);
                 message.channel.stopTyping();
             }
         })
