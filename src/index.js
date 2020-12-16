@@ -1,6 +1,3 @@
-const Client = require("./Structures/DiscordClient.js");
-const Config = require("../config.json");
-
 const { Collection } = require("discord.js");
 
 const Client = require('./Structures/DiscordClient.js');
@@ -29,12 +26,13 @@ function makeBot(){
         colorsEnabled: false,
     })
 }
+
+console.log(bot);
 //sends to limbo
 bot.once('connect', () => {
     bot.chat('/achat §c');
+    bot.chatAddPattern(/^(.+)> (.+)/, 'guildFilter');
 });
-
-bot.chatAddPattern(/^(.+)> (.+)/, 'guildFilter');
 
 //Logger
 bot.on('guildFilter', (_guild, message) => {
