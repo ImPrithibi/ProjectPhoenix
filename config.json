@@ -1,5 +1,7 @@
 {
   "prefix": ">",
-  "token": "NzY1MDEzMTM0OTM4MjEwMzU0.X4OoAA.shRMX_6viVIcioLStlVUIXFG1f8",
-  "db_uri": "mongodb+srv://admin:WPmmHgWijtSdA3QG@cluster0.qfmfb.mongodb.net/Bot"
+  "token": "NzEwNTI5ODgyNTg0NjQ1Njg0.Xr1yhQ.au20-9_5iX91r0m0RO6jcOPih8E",
+  "main_token": "NzY1MDEzMTM0OTM4MjEwMzU0.X4OoAA.shRMX_6viVIcioLStlVUIXFG1f8",
+  "db_uri": "mongodb+srv://admin:WPmmHgWijtSdA3QG@cluster0.qfmfb.mongodb.net/Bot",
+  "hypixel_api_key": "cb0ecbdb-a60e-4a30-bca4-f48d8e58a7fb"
 }

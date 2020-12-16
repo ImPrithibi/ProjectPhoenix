@@ -9,7 +9,7 @@ module.exports = class Command {
         this.usage = options.usage || "No usage provided";
     }
 
-    async run(message, args) {
+    async run(message, args, database) {
         throw new Error(`Command ${this.name} doesnt provide a run method`);
     }
 }
