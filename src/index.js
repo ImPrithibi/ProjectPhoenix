@@ -1,12 +1,9 @@
-const Client = require("./Structures/DiscordClient.js");
-const Config = require("../config.json");
-
-
-const client = new Client(Config);
-// noinspection JSIgnoredPromiseFromCall
-client.start();
-const Database = require("./modules/DatabaseModule/Database")
+const Client = require('./Structures/DiscordClient.js');
+const Config = require('../config.json');
 const minef = require('mineflayer');
+const client = new Client(Config);
+const Database = require('./modules/DatabaseModule/Database')
+
 
 // noinspection JSIgnoredPromiseFromCall
 client.start();
