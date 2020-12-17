@@ -12,11 +12,7 @@ module.exports = {
         async add(member, role) {
             if (!(role in RoleIDMap)) return;
 
-            console.log(RoleIDMap[role]);
-
             let roleResolved = await member.guild.roles.fetch(RoleIDMap[role]);
-
-            console.log(roleResolved);
 
             await member.roles.add(roleResolved);
         }
@@ -25,8 +21,6 @@ module.exports = {
             if (!(role in RoleIDMap)) return;
 
             let roleResolved = await member.guild.roles.fetch(RoleIDMap[role]);
-
-            console.log(roleResolved);
 
             await member.roles.remove(roleResolved);
         }

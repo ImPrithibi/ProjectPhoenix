@@ -10,10 +10,13 @@ class RoleSync {
         this.dataCache;
         this.client = client;
         // this.run();
-        this.interval = setInterval(this.run, 10000);
+        let self = this;
+        this.interval = setInterval(() => {
+            this.run(self);
+        }, 10000); // loophole thingymajigy
     }
 
-    async run() {
+    async run(rs) {
         // api call to get guild members
         const guild = await client.guild.name('Intelligence Quotient');
 
@@ -26,11 +29,9 @@ class RoleSync {
             };
         }
 
-        console.log(currentDataBuild["b428763f1a534de0aa222b1da66f9fd9"]);
 
-
-        if (!this.dataCache) {
-            this.dataCache = currentDataBuild;
+        if (!rs.dataCache) {
+            rs.dataCache = currentDataBuild;
             return;
         }
 
@@ -38,9 +39,7 @@ class RoleSync {
        //  if (compareObjects(this.dataCache, currentDataBuild)) return; // same data, cut off some extra work
 
 
-        let changed = compareDifferences(this.dataCache, currentDataBuild);
-
-        console.log(changed);
+        let changed = compareDifferences(rs.dataCache, currentDataBuild);
 
         let roleManager = new Role.GuildMemberRole();
 
@@ -49,22 +48,22 @@ class RoleSync {
 
             let db = new UserLinkDatabase();
 
-            let id = db.getDiscordID(uuid);
+            let id = await db.getDiscordID(uuid);
             if (!id) continue; // user not linked, dont worry about it
 
-            if (!this.dataCache[uuid]) { // new data being added
-                await roleManager.add(await (await client.getGuild()).members.fetch(id), value.rank);
+            if (!rs.dataCache[uuid]) { // new data being added
+                await roleManager.add(await (await rs.client.getGuild()).members.fetch(id), value.rank);
             } else if (value == null) { // data being removed
-                await roleManager.removeAll(await (await client.getGuild()).members.fetch(id));
+                await roleManager.removeAll(await (await rs.client.getGuild()).members.fetch(id));
             } else {// data change
-                await roleManager.removeAll(await (await client.getGuild()).members.fetch(id));
-                await roleManager.add(await (await client.getGuild()).members.fetch(id), value.rank);
+                await roleManager.removeAll(await (await rs.client.getGuild()).members.fetch(id));
+                await roleManager.add(await (await rs.client.getGuild()).members.fetch(id), value.rank);
             }
         }
 
 
         // at last
-        this.dataCache = currentDataBuild;
+        rs.dataCache = currentDataBuild;
     }
 }
 

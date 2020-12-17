@@ -1,5 +1,5 @@
 const command = require('../../Structures/Command');
-const index = require('../../index');
+const index = require('../../makeBot');
 
 module.exports = class extends command {
     constructor(...args) {

@@ -1,4 +1,4 @@
-const { Client, Collection} = require('discord.js');
+const { Client, Collection, MessageEmbed } = require('discord.js');
 const Util = require('./Util.js');
 const Database = require("../modules/DatabaseModule/Database");
 const { db_uri } = require("../../config.json");
@@ -42,7 +42,6 @@ module.exports = class DiscordClient extends Client {
 //
             const command = this.commands.get(cmd.toLowerCase()) || this.commands.get(this.aliases.get(cmd.toLowerCase()));
             if(command) {
-                console.log(!(message.member.roles.highest.name === 'Staff') && !(message.member.roles.highest.name === 'Guild Master'));
                 if(command.requireStaff && (!(message.member.roles.highest.name === 'Staff') && !(message.member.roles.highest.name === 'Guild Master'))) {
                     sendErrorMessage(message.channel, "You are not a high enough role to use this.")
                     return;
@@ -71,8 +70,8 @@ module.exports = class DiscordClient extends Client {
         await super.login(token);
     }
     async sendLog(log) {
-        let channel = await this.channels.fetch('788533520058155018');
-        let eb = new this.MessageEmbed()
+        let channel = await this.channels.fetch('789131645361455105');
+        let eb = new MessageEmbed()
             .setColor("#00ff36")
             .setDescription(log)
             .setTitle(`Log of ${new Date().toTimeString()}`);
@@ -84,6 +83,6 @@ module.exports = class DiscordClient extends Client {
     }
 
     async getGuild() {
-        this.guilds.fetch("755048987303608373"); // TODO: Make this IQ guild ID
+        return await this.guilds.fetch("755048987303608373"); // TODO: Make this IQ guild ID
     }
 }
