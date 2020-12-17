@@ -61,13 +61,11 @@ let joinMessages = [
 ]
 
 //Join message
-bot.on('chat', (username, message) => {
+bot.on('chat', async (username, message) => {
 
     if (bot.username === username) return;
 
-    console.log(message);
-
-    console.log(message.includes("joined the guild"))
+    (await client.channels.fetch("789131645361455105")).send(`\`${message}\``);
 
     if(message.includes('joined the guild')){
         if(message.startsWith('[')){
