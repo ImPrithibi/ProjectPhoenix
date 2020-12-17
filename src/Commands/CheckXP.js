@@ -14,7 +14,7 @@ module.exports = class extends command {
 		super(...args, {
 			aliases: ['cxp'],
 			description: 'Checks the guild XP',
-			requireStaff: false
+			requiredRoles: ["788636116978630666", "789216259568304169", /*main server*/ "480358874839252992", "480358663077494787"]
 		});
 	}
 	async run(message, _args) {

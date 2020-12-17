@@ -42,9 +42,12 @@ module.exports = class DiscordClient extends Client {
 //
             const command = this.commands.get(cmd.toLowerCase()) || this.commands.get(this.aliases.get(cmd.toLowerCase()));
             if(command) {
-                if(command.requireStaff && (!(message.member.roles.highest.name === 'Staff') && !(message.member.roles.highest.name === 'Guild Master'))) {
-                    sendErrorMessage(message.channel, "You are not a high enough role to use this.")
-                    return;
+                if(command.requiredRoles) {
+                    let isAllowed = false;
+                    command.requiredRoles.forEach((roleName) => {
+                        if (message.member.roles.cache.find(r => r.id === roleName)) isAllowed = true;
+                    });
+                    if (!isAllowed) return sendErrorMessage(message.channel, "You are not a high enough role to use this.");
                 }
                 // noinspection ES6MissingAwait
                 message.channel.startTyping();

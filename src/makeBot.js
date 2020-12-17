@@ -26,8 +26,8 @@ function makeBot(client) {
     bot = minef.createBot({
         host: 'IQOP.hypixel.net',
         port: 25565,
-        username: 'atr10605@yahoo.com',
-        password: 'iOTTIa3*',
+        username: 'paul.prithibi@hotmail.com',
+        password: '#IQOP2020Prithibi',
         keepAlive: true,
         colorsEnabled: false,
         version: '1.12.2'
@@ -57,6 +57,9 @@ function makeBot(client) {
                 }
             }
         })
+
+        let isFirstLimboed = false;
+
     // listeners
         bot.on('error', function(err) {
             console.log(err);
@@ -68,11 +71,13 @@ function makeBot(client) {
 
         bot.on('spawn', () => {
             console.log('Connected to hypiexl');
-            bot.chat("/achat §c")
+            if (!isFirstLimboed) {
+                bot.chat("/achat §c");
+                isFirstLimboed = true;
+            }
         });
 
         bot.on('chat', async (username, message) => {
-            console.log(message);
             // console.log((username + ': ' + message));
             if (username === 'Guild' || username === 'Officer') {
                 (await client.channels.fetch("789131645361455105")).send(`\`${username + " > " + message}\``);
@@ -102,8 +107,12 @@ function getPlayer() {
     return player;
 }
 
+function setPlayer(plr) {
+    player = plr;
+}
+
 module.exports = {
-    makeBot, getPlayer, sendMessage, joinMessages, getLog
+    makeBot, getPlayer, sendMessage, joinMessages, getLog, setPlayer
 }
 
 //Join message

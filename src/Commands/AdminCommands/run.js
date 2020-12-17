@@ -6,7 +6,7 @@ module.exports = class extends Command {
         super(...args, {
             aliases: [],
             description: 'Runs commands',
-            requireStaff: true
+            requiredRoles: ["789216259568304169", /*main server*/ "480358663077494787"]
         });
     }
     async run(message, args) {

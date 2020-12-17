@@ -8,7 +8,7 @@ module.exports = class extends Command {
         super(...args, {
             aliases: ['ta'],
             description: 'Toggles Admin Commands being used on the bot',
-            requireStaff: true
+            requiredRoles: ["788636116978630666", "789216259568304169", /*main server*/ "480358874839252992", "480358663077494787"]
         });
     }
 

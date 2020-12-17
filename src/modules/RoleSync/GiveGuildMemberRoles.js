@@ -1,9 +1,9 @@
 let RoleIDMap = {
-    "Verified Member": "788919692093292544",// TODO: Make IQ Guild IDs
-    "1st Quad": "788919367847903232",
-    "2nd Quad": "788919426158297098",
-    "Senior": "788919517539205132",
-    "GEXP OP": "788919459721117776"
+    "Verified Member": "760879807994658856",
+    "1st Quad": "760877203004850266",
+    "2nd Quad": "760566747089731594",
+    "Senior": "577184391080574978",
+    "GEXP OP": "765035179219484682"
 }
 
 module.exports = {
@@ -31,7 +31,6 @@ module.exports = {
             let roleResolved = await member.guild.roles.fetch(RoleIDMap[role]);
 
             if (!member.roles.cache.find(r => r.id === role.id)) {
-                console.log("Role, " + role.name + "not found!");
                 return;
             }
 

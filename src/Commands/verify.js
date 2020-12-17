@@ -15,12 +15,12 @@ const Role = require("../modules/RoleSync/GiveGuildMemberRoles");
 let RoleManager = new Role.GuildMemberRole();
 
 const rankIDs = {
-    "VIP": "789199232388825158",
-    "VIP_PLUS": "789199222464446515",
-    "MVP": "789199182233731092",
-    "MVP_PLUS": "789199160708300820",
-    "MVP_PLUS_PLUS": "789199086922104832",
-    "YOUTUBE": "789199061835055181"
+    "VIP": "761720397771046912",
+    "VIP_PLUS": "761720355047211009",
+    "MVP": "761720330146283520",
+    "MVP_PLUS": "761720309240954921",
+    "MVP_PLUS_PLUS": "761720257692827668",
+    "YOUTUBE": "761720445975789580"
 }
 
 const rank = {
@@ -37,8 +37,7 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             aliases: [],
-            description: "Links discord and minecraft",
-            requireStaff: false
+            description: "Links discord and minecraft"
         });
     }
 
@@ -95,17 +94,22 @@ module.exports = class extends Command {
                 sendSuccessMessage(message.channel, `Your discord has been linked/updated with the minecraft account, ${playerData.displayname}!`);
                 if (message.member.nickname !== playerData.displayname) message.member.setNickname(playerData.displayname);
                 this.giveRanks(message.member, playerData, bot);
+                this.sendWelcome(message, playerData);
             })
             .catch(async (err) => {
                 queryFailed = true;
                 if (err instanceof DataSimilarError) {
+                    let isChanged = false;
                     if (message.member.nickname !== playerData.displayname) {
                         await message.member.setNickname(playerData.displayname);
-                        return sendSuccessMessage(message.channel, `Your nickname has been synchronized with your account name, ${playerData.displayname}`);
+                        isChanged = true;
+                        sendSuccessMessage(message.channel, `Your nickname has been synchronized with your account name, ${playerData.displayname}`);
                     }
                     if (await this.giveRanks(message.member, playerData, bot)) {
-                        return sendSuccessMessage(message.channel, `Your rank role has been synchronized with your account. `);
+                        isChanged = true;
+                        sendSuccessMessage(message.channel, `Your rank role has been synchronized with your account. `);
                     }
+                    if (isChanged) return;
                     return sendErrorMessage(message.channel, `Your discord is already linked with the minecraft account, ${playerData.displayname}!`);
                 }
                 return sendErrorMessage(message.channel, "An error occurred when trying to add data to the database");
@@ -135,33 +139,6 @@ module.exports = class extends Command {
             if (member.uuid === uuid) {
                 await RoleManager.add(message.member, member.rank);
                 sendSuccessMessage(message.channel, `Welcome to Intelligence Quotient, ${message.member}!`);
-                try {
-                    let isError = false;
-                    message.member.user.createDM()
-                        .catch(() => {
-                            isError = true;
-                        })
-                        .then((channel) => {
-                            if (!isError) {
-                                sendSuccessMessage(channel, `<:check:788939320262000650> **You have been linked to an account!** 
-**Your Minecraft account has been linked**
-
-You have linked your discord account to Minecraft account <a:Minecraft:788940069951242261> \`${playerData.newPackageRank ? `[${rank[playerData.newPackageRank] ? rank[playerData.newPackageRank] : playerData.newPackageRank}]` : ``} ${playerData.displayname}\`
-
-This gives you the ability to see channels and talk with other members of our community! Please make sure that you are following our server's rules at all times, you can find these in <#483380719863857152>, If you need any help, you may ask in <#746830362663190579>.
-
-**Useful Links:**
-[🔗 Follow us on Twitter!](https://twitter.com/IQOverPowered)
-[🔗 Subscribe to our Youtube Channel!](https://www.youtube.com/channel/UCNmJA1bj-wd3zH5thuR_lgw)
-🔗 Apply for our guild! <#746830326957080686>
-🔗 Check out our latest events! <#733367762906251308>
-
-_If you need any help, feel free to message a staff member ❤️_`);
-                            }
-                        })
-                } catch (ignored) {
-
-                }
             }
         }
     }
@@ -187,6 +164,32 @@ _If you need any help, feel free to message a staff member ❤️_`);
 
         await RoleManager.addRole(member, await member.guild.roles.fetch(ID));
         return true;
+    }
+
+    async sendWelcome(message, playerData) {
+        let isError = false;
+        message.member.user.createDM()
+            .catch(() => {
+                isError = true;
+            })
+            .then((channel) => {
+                if (!isError) {
+                    sendSuccessMessage(channel, `<:check:788939320262000650> **You have been linked to an account!** 
+**Your Minecraft account has been linked**
+
+You have linked your discord account to Minecraft account <a:Minecraft:788940069951242261> \`${playerData.newPackageRank ? `[${rank[playerData.newPackageRank] ? rank[playerData.newPackageRank] : playerData.newPackageRank}]` : ``} ${playerData.displayname}\`
+
+This gives you the ability to see channels and talk with other members of our community! Please make sure that you are following our server's rules at all times, you can find these in <#483380719863857152>, If you need any help, you may ask in <#746830362663190579>.
+
+**Useful Links:**
+[🔗 Follow us on Twitter!](https://twitter.com/IQOverPowered)
+[🔗 Subscribe to our Youtube Channel!](https://www.youtube.com/channel/UCNmJA1bj-wd3zH5thuR_lgw)
+🔗 Apply for our guild! <#746830326957080686>
+🔗 Check out our latest events! <#733367762906251308>
+
+_If you need any help, feel free to message a staff member ❤️_`);
+                }
+            })
     }
 
 };
