@@ -1,5 +1,5 @@
 const Command = require('../../Structures/Command');
-let { log } = require('../../makeBot');
+let { getLog } = require('../../makeBot');
 let { customMessage } = require('../../modules/MessageUtils/MessageUtils');
 
 module.exports = class extends Command {
@@ -10,8 +10,8 @@ module.exports = class extends Command {
             requireStaff: true
         });
     }
-    async run(message){
-        console.log(log);
-        customMessage(message.channel, "GREEN", log);
+    async run(message) {
+        console.log(getLog());
+        customMessage(message.channel, "GREEN", getLog());
     }
 }

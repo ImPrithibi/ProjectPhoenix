@@ -33,23 +33,9 @@ function makeBot(client) {
         version: '1.12.2'
     });
 
-    // listeners
-        bot.on('error', function(err) {
-            console.log(err);
-        });
+    bot.chatAddPattern(/(.*)/, "AllChat");
 
-        bot.on('end', () => {
-            makeBot(client);
-        });
-
-        bot.on('spawn', () => {
-            console.log('Connected to hypiexl');
-            bot.chat("/achat §c")
-        });
-
-        bot.on('chat', async (username, message) => {
-            // console.log((username + ': ' + message));
-
+        bot.on('AllChat', (message) => {
             if(message.includes('has requested to join the Guild!')) {
                 if(message.startsWith('[')){
                     player = message.split(' ')[1];
@@ -70,16 +56,34 @@ function makeBot(client) {
                     bot.chat("/gc " + joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
                 }
             }
-            if (username === 'Guild') {
-                (await client.channels.fetch("789131645361455105")).send(`\`${message}\``);
-                log = log + username + ': ' + message + '\n';
-                logCounter++;
-                if (logCounter >= 30 || log.length >= 1950) {
-                    // console.log(log.length);
-                    await client.sendLog(`\`${log}\``);
-                    log = '';
-                    logCounter = 0;
-                }
+        })
+    // listeners
+        bot.on('error', function(err) {
+            console.log(err);
+        });
+
+        bot.on('end', () => {
+            makeBot(client);
+        });
+
+        bot.on('spawn', () => {
+            console.log('Connected to hypiexl');
+            bot.chat("/achat §c")
+        });
+
+        bot.on('chat', async (username, message) => {
+            console.log(message);
+            // console.log((username + ': ' + message));
+            if (username === 'Guild' || username === 'Officer') {
+                (await client.channels.fetch("789131645361455105")).send(`\`${username + " > " + message}\``);
+                // log = log + message + '\n';
+                // logCounter++;
+                // if (logCounter >= 30 || log.length >= 1950) {
+                //     // console.log(log.length);
+                //     await client.sendLog(`\`${log}\``);
+                //     log = '';
+                //     logCounter = 0;
+                // }
             }
         });
 
@@ -90,8 +94,16 @@ function sendMessage(gMessage) {
     bot.chat(gMessage);
 }
 
+function getLog() {
+    return log;
+}
+
+function getPlayer() {
+    return player;
+}
+
 module.exports = {
-    makeBot, player, sendMessage, joinMessages, log
+    makeBot, getPlayer, sendMessage, joinMessages, getLog
 }
 
 //Join message

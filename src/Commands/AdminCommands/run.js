@@ -5,12 +5,12 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             aliases: [],
-            description: 'Accepts player',
+            description: 'Runs commands',
             requireStaff: true
         });
     }
-    async run(message){
-        message.send('Accepted ' + getPlayer() + '\'s invite!');
-        sendMessage("/g accept " + getPlayer());
+    async run(message, args) {
+        sendMessage(`/${args.join(' ')}`);
+        message.channel.send(`Ran command, ${args.join(' ')}`);
     }
 }

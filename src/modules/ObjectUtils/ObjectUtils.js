@@ -1,3 +1,4 @@
 module.exports = {
-    "compareObjects": require("./compareObject")
+    "compareObjects": require("./compareObject"),
+    "compareDifferences": require("./compareDifferences")
 }

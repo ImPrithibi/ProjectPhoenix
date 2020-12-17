@@ -14,6 +14,15 @@ const Role = require("../modules/RoleSync/GiveGuildMemberRoles");
 
 let RoleManager = new Role.GuildMemberRole();
 
+const rankIDs = {
+    "VIP": "789199232388825158",
+    "VIP_PLUS": "789199222464446515",
+    "MVP": "789199182233731092",
+    "MVP_PLUS": "789199160708300820",
+    "MVP_PLUS_PLUS": "789199086922104832",
+    "YOUTUBE": "789199061835055181"
+}
+
 const rank = {
     "VIP": "VIP",
     "VIP_PLUS": "VIP+",
@@ -84,13 +93,18 @@ module.exports = class extends Command {
         }), true, {"DiscordID": message.member.id}, {"checkData": ["UUID"]})
             .then(() => {
                 sendSuccessMessage(message.channel, `Your discord has been linked/updated with the minecraft account, ${playerData.displayname}!`);
+                if (message.member.nickname !== playerData.displayname) message.member.setNickname(playerData.displayname);
+                this.giveRanks(message.member, playerData, bot);
             })
-            .catch((err) => {
+            .catch(async (err) => {
                 queryFailed = true;
                 if (err instanceof DataSimilarError) {
                     if (message.member.nickname !== playerData.displayname) {
-                        message.member.setNickname(playerData.displayname);
+                        await message.member.setNickname(playerData.displayname);
                         return sendSuccessMessage(message.channel, `Your nickname has been synchronized with your account name, ${playerData.displayname}`);
+                    }
+                    if (await this.giveRanks(message.member, playerData, bot)) {
+                        return sendSuccessMessage(message.channel, `Your rank role has been synchronized with your account. `);
                     }
                     return sendErrorMessage(message.channel, `Your discord is already linked with the minecraft account, ${playerData.displayname}!`);
                 }
@@ -114,6 +128,8 @@ module.exports = class extends Command {
         if (guild._id !== "5a67bfa70cf29432ef9df6cc") return;
 
         // proven user is in IQ
+
+        if (queryFailed) return;
 
         for (let member of guild.members) {
             if (member.uuid === uuid) {
@@ -148,6 +164,29 @@ _If you need any help, feel free to message a staff member ❤️_`);
                 }
             }
         }
+    }
+
+    async giveRanks(member, playerData, client) {
+        let rank = playerData.newPackageRank;
+        if (!rank) return false;
+
+        let ID = rankIDs[rank];
+
+        if (!ID) return false;
+
+        let role = member.roles.cache.find(role => role.id === ID);
+
+        if (role !== undefined) return false;
+
+
+        // remove all ranks first
+        for (let key in rankIDs) {
+            const val = rankIDs[key];
+            await RoleManager.removeRole(member, await member.guild.roles.fetch(val));
+        }
+
+        await RoleManager.addRole(member, await member.guild.roles.fetch(ID));
+        return true;
     }
 
 };

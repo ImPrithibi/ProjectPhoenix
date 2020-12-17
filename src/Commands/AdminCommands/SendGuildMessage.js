@@ -4,7 +4,7 @@ const index = require('../../makeBot');
 module.exports = class extends command {
     constructor(...args) {
         super(...args, {
-            aliases: ['sgm'],
+            aliases: ['sgm', 'say'],
             description: 'Sends a message',
             requireStaff: true
         });

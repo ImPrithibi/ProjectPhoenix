@@ -17,10 +17,23 @@ module.exports = {
             await member.roles.add(roleResolved);
         }
 
+        async addRole(member, role) {
+            return member.roles.add(role);
+        }
+
+        async removeRole(member, role) {
+            return member.roles.remove(role);
+        }
+
         async remove(member, role) {
             if (!(role in RoleIDMap)) return;
 
             let roleResolved = await member.guild.roles.fetch(RoleIDMap[role]);
+
+            if (!member.roles.cache.find(r => r.id === role.id)) {
+                console.log("Role, " + role.name + "not found!");
+                return;
+            }
 
             await member.roles.remove(roleResolved);
         }

@@ -6,10 +6,16 @@ module.exports = class {
     }
 
     async getUUID(discordID) {
-        return (await UserLinkData.findOne({"DiscordID": discordID})).UUID;
+        if (!discordID) return;
+        let res = await UserLinkData.findOne({"DiscordID": discordID});
+        if (!res) return;
+        return res.UUID;
     }
 
     async getDiscordID(uuid) {
-        return (await UserLinkData.findOne({"UUID": uuid})).DiscordID;
+        if (!uuid) return;
+        let res = await UserLinkData.findOne({"UUID": uuid});
+        if (!res) return;
+        return res.DiscordID;
     }
 }
