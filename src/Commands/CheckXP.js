@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const command = require('../Structures/Command.js');
-const { Client } = require('@zikeji/hypixel');
+const Client = require('node-hypixel');
 const discClient = require('discord.js');
 // noinspection JSCheckFunctionSignatures
 const client = new Client(require("../../config.json").hypixel_api_key);
@@ -14,7 +14,7 @@ module.exports = class extends command {
 		super(...args, {
 			aliases: ['cxp'],
 			description: 'Checks the guild XP',
-			requireStaff: true
+			requireStaff: false
 		});
 	}
 	async run(message, _args) {

@@ -1,50 +1,16 @@
 const { Collection } = require("discord.js");
-
+const readline = require("readline").createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+const RoleSync = require('./modules/RoleSync/RoleSync');
 const Client = require('./Structures/DiscordClient.js');
 const Config = require('../config.json');
 const minef = require('mineflayer');
-const RoleSync = require("./modules/RoleSync/RoleSync");
 const client = new Client(Config);
 // noinspection JSIgnoredPromiseFromCall
 client.start();
-
-client.UserUUIDCache = new Collection();
-
-
-//Minecraft bot stuff starts here, will be moved later
-let bot = makeBot();
-let log = '';
-
-function makeBot(){
-    return minef.createBot({
-        host: 'IQOP.hypixel.net',
-        port: 25565,
-        version: '1.12.2',
-        username: 'atr10605@yahoo.com',
-        password: 'iOTTIa3*',
-        keepAlive: true,
-        colorsEnabled: false
-    })
-}
-
-//sends to limbo
-bot.once('connect', () => {
-    console.log("Mineflayer connected");
-    bot.chatAddPattern(/^(.+)> (.+)/, 'guildFilter');
-});
-
-bot.once('spawn', () => {
-    console.log("Mineflayer spawned");
-    bot.chat('/achat §c');
-})
-
-//Logger
-bot.on('guildFilter', (_guild, message) => {
-    log = log + message + '\n';
-    if(log.length > 1900){
-        client.sendLog(log);
-    }
-})
+makeBot();
 
 let joinMessages = [
     '%n just joined the server - glhf!', '%n just joined. Everyone, look busy!', '%n just joined. Can I get a heal?',
@@ -58,39 +24,68 @@ let joinMessages = [
     'It\'s dangerous to go alone, take %n!', '%n has joined the server! It\'s super effective!', 'Cheers, love! %n is here!', '%n is here, as the prophecy foretold.',
     '%n has arrived. Party\'s over.', 'Ready player %n', '%n is here to kick butt and chew bubblegum. And %n is all out of gum.', 'Hello. Is it %n you\'re looking for?',
     '%n has joined. Stay a while and listen!', 'Roses are red, violets are blue, %n joined this guild with you'
-]
+];
+client.UserUUIDCache = new Collection();
 
-//Join message
-bot.on('chat', (username, message) => {
 
-    if (bot.username === username) return;
 
-    console.log(message);
+//Minecraft bot stuff starts here, will be moved later
 
-    console.log(message.includes("joined the guild"))
+let log = '';
 
-    if(message.includes('joined the guild')){
-        if(message.startsWith('[')){
-            let playerName = message.split(' ')[1];
-            // console.log(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
-            bot.chat("/gc " + joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
-        } else {
-            let playerName = message.split(' ')[0];
-            // console.log(joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName))
-            bot.chat("/gc " + joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+function makeBot(){
+
+    console.log('Connecting to the server')
+    const bot = minef.createBot({
+        host: 'IQOP.hypixel.net',
+        port: 25565,
+        username: 'atr10605@yahoo.com',
+        password: 'iOTTIa3*',
+        keepAlive: true,
+        colorsEnabled: false,
+        version: '1.12.2'
+    });
+
+    bot.on('error', function(err){
+        console.log(err);
+    });
+
+    bot.on('end', () => {
+        makeBot();
+    });
+
+    bot.on('spawn', () => {
+        console.log('Connected to hypiexl')
+    });
+
+    bot.on('chat', (username, message) => {
+
+        if(bot.username === username) return;
+
+        console.log((username + ': ' + message));
+        if(message.includes(' joined the guild!')){
+            if(message.startsWith('[')){
+                let playerName = message.split(' ')[1];
+                bot.chat('/gchat ' + joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+            } else {
+                let playerName = message.split(' ')[0];
+                bot.chat('/gchat ' + joinMessages[Math.floor(Math.random() * joinMessages.length)].replace('%n', playerName));
+            }
         }
+        if (username === 'Guild') {
+            log = log + username + ': ' + message;
+            if(log.length > 1900){
+                client.sendLog(log).then(() => {});
+            }
+        }
+
+    });
+
+    function sendMessage(gMessage) {
+        bot.chat(gMessage);
     }
-});
 
-//auto-reconnect
-bot.on('end', () => {
-    bot = makeBot();
-})
+    module.exports = {sendMessage};
 
-//sendMessagesOnCommand
-function sendMessage(gMessage){
-    bot.chat(gMessage);
 }
-module.exports = {sendMessage};
-
 const rs = new RoleSync(client);

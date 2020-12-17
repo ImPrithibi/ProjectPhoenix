@@ -5,6 +5,7 @@ module.exports = (channel, error) => {
 
     embed
         .setColor("RED")
+        .setTitle('Error')
         .setDescription(error);
     channel.send(embed);
 }

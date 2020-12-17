@@ -4,7 +4,7 @@ const index = require('../../index');
 module.exports = class extends command {
     constructor(args) {
         super(args, {
-            //TODO: make this do things
+            aliases: ['sendgm', 'sgmessage']
         });
     }
     async run(args){

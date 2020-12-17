@@ -5,6 +5,7 @@ module.exports = (channel, message) => {
 
     embed
         .setColor("GREEN")
+        .setTitle("Success!")
         .setDescription(message);
     channel.send(embed);
 }
