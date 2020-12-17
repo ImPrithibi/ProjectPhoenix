@@ -22,8 +22,6 @@ function diff (obj1, obj2) {
 
     }
 
-    compare();
-
     function compare(item1, item2, key) {
 
         let type1 = Object.prototype.toString.call(item1);
@@ -64,6 +62,30 @@ function diff (obj1, obj2) {
         }
 
     }
+
+    //
+    // Compare our objects
+    //
+
+    // Loop through the first object
+    for (key in obj1) {
+        if (obj1.hasOwnProperty(key)) {
+            compare(obj1[key], obj2[key], key);
+        }
+    }
+
+    // Loop through the second object and find missing items
+    for (key in obj2) {
+        if (obj2.hasOwnProperty(key)) {
+            if (!obj1[key] && obj1[key] !== obj2[key] ) {
+                diffs[key] = obj2[key];
+            }
+        }
+    }
+
+    // Return the object of differences
+    return diffs;
+
 }
 
 module.exports = diff;
