@@ -18,10 +18,12 @@ module.exports = {
         }
 
         async addRole(member, role) {
+            if (member.roles.cache.find(r => r.id === role.id)) return; // alr has role
             return member.roles.add(role);
         }
 
         async removeRole(member, role) {
+            if (!member.roles.cache.find(r => r.id === role.id)) return; // doesnt have role
             return member.roles.remove(role);
         }
 
