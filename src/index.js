@@ -30,9 +30,9 @@ client.UserUUIDCache = new Collection();
 
 
 //Minecraft bot stuff starts here, will be moved later
-
+//TODO: Move so it looks nicer
 let log = '';
-
+let player;
 function makeBot(){
 
     console.log('Connecting to the server')
@@ -59,10 +59,18 @@ function makeBot(){
     });
 
     bot.on('chat', (username, message) => {
-
-        if(bot.username === username) return;
-
         console.log((username + ': ' + message));
+
+        if(message.includes('has requested to join the Guild!')){
+            if(message.startsWith('[')){
+                player = message.split(' ')[1];
+            } else{
+                player = message.split(' ')[1];
+            }
+            client.sendMessage(`<@480358874839252992> ${player} has requested to join the guild. Do >accept to accept them in`).then(r => r);
+        }
+
+
         if(message.includes(' joined the guild!')){
             if(message.startsWith('[')){
                 let playerName = message.split(' ')[1];
@@ -85,7 +93,7 @@ function makeBot(){
         bot.chat(gMessage);
     }
 
-    module.exports = {sendMessage};
+    module.exports = {sendMessage, player};
 
 }
 const rs = new RoleSync(client);
