@@ -26,13 +26,21 @@ class RoleSync {
             };
         }
 
+        console.log(currentDataBuild["b428763f1a534de0aa222b1da66f9fd9"]);
 
-        if (!this.dataCache) return;
+
+        if (!this.dataCache) {
+            this.dataCache = currentDataBuild;
+            return;
+        }
 
         // detect changes in data
-        if (compareObjects(this.dataCache, currentDataBuild)) return; // same data, cut off some extra work
+       //  if (compareObjects(this.dataCache, currentDataBuild)) return; // same data, cut off some extra work
+
 
         let changed = compareDifferences(this.dataCache, currentDataBuild);
+
+        console.log(changed);
 
         let roleManager = new Role.GuildMemberRole();
 
