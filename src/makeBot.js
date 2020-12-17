@@ -80,7 +80,7 @@ function makeBot(client) {
         bot.on('chat', async (username, message) => {
             // console.log((username + ': ' + message));
             if (username === 'Guild' || username === 'Officer') {
-                (await client.channels.fetch("789131645361455105")).send(`\`${username + " > " + message}\``);
+                (await client.channels.fetch("788533520058155018")).send(`\`${username + " > " + message}\``);
                 // log = log + message + '\n';
                 // logCounter++;
                 // if (logCounter >= 30 || log.length >= 1950) {
