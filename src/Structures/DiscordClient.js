@@ -78,4 +78,8 @@ module.exports = class DiscordClient extends Client {
             .setTitle(`Log of ${new Date().toTimeString()}`);
         channel.send(eb);
     }
+
+    async getGuild() {
+        this.guilds.fetch("755048987303608373"); // TODO: Make this IQ guild ID
+    }
 }
