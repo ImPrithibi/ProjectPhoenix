@@ -74,9 +74,9 @@ function makeBot(client) {
                 (await client.channels.fetch("789131645361455105")).send(`\`${message}\``);
                 log = log + username + ': ' + message + '\n';
                 logCounter++;
-                if (logCounter >= 50) {
+                if (logCounter >= 30 || log.length >= 1950) {
                     // console.log(log.length);
-                    await client.sendLog(log);
+                    await client.sendLog(`\`${log}\``);
                     log = '';
                     logCounter = 0;
                 }
