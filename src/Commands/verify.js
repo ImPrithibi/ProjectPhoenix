@@ -83,15 +83,7 @@ module.exports = class extends Command {
 
         if (!links) return sendErrorMessage(message.channel, "Error: The specified player does not have discord linked!");
 
-
-
-        if (links !== message.member.user.tag) {
-            let embed = new MessageEmbed();
-            embed.setTitle(":x: Failed to Verify Account!")
-            .setDescription(`Please Update Your Discord On Hypixel from ${links} to ${message.member.user.tag} . `)
-            .setColor("RED");
-            return message.channel.send(embed);
-        }
+        if (links !== message.member.user.tag) return sendErrorMessage(message.channel, `Error: The specified player does not have their discord linked as your discord. Please change your discord from ${message.author.tag} to ${links}`);
 
         let queryFailed = false;
 
