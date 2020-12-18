@@ -151,8 +151,7 @@ module.exports = class extends Command {
     }
 
     async giveRanks(member, playerData, client) {
-        let rank = playerData.newPackageRank;
-        if (!rank) return false;
+        let rank = this.getRank(playerData);
 
         let ID = rankIDs[rank];
 
@@ -184,7 +183,7 @@ module.exports = class extends Command {
                     sendSuccessMessage(channel, `<:check:788939320262000650> **You have been linked to an account!** 
 **Your Minecraft account has been linked**
 
-You have linked your discord account to Minecraft account <a:Minecraft:788940069951242261> \`${playerData.newPackageRank ? `[${rank[playerData.newPackageRank] ? rank[playerData.newPackageRank] : playerData.newPackageRank}]` : ``} ${playerData.displayname}\`
+You have linked your discord account to Minecraft account <a:Minecraft:788940069951242261> \`${playerData.newPackageRank ? `[${rank[this.getRank(playerData)] ? rank[this.getRank(playerData)] : playerData.newPackageRank}]` : ``} ${playerData.displayname}\`
 
 This gives you the ability to see channels and talk with other members of our community! Please make sure that you are following our server's rules at all times, you can find these in <#483380719863857152>, If you need any help, you may ask in <#746830362663190579>.
 
@@ -197,6 +196,21 @@ This gives you the ability to see channels and talk with other members of our co
 _If you need any help, feel free to message a staff member ❤️_`);
                 }
             })
+    }
+
+    getRank(playerData) {
+        let rank = playerData.newPackageRank;
+        if (!rank) return undefined;
+
+        if (rank === "MVP_PLUS") {
+            if (playerData.rank && playerData.rank === "YOUTUBER") {
+                rank = "YOUTUBE";
+            } else if (playerData.monthlyPackageRank) {
+                rank = "MVP_PLUS_PLUS";
+            }
+        }
+
+        return rank;
     }
 
 };
