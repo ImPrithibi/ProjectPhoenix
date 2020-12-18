@@ -70,7 +70,7 @@ function makeBot(client) {
         });
 
         bot.on('spawn', () => {
-            console.log('Connected to hypiexl');
+            console.log('Spawning');
             if (!isFirstLimboed) {
                 bot.chat("/achat §c");
                 isFirstLimboed = true;

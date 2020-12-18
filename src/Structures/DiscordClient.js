@@ -86,6 +86,6 @@ module.exports = class DiscordClient extends Client {
     }
 
     async getGuild() {
-        return await this.guilds.fetch("755048987303608373"); // TODO: Make this IQ guild ID
+        return await this.guilds.fetch("478237364729151498"); // TODO: Make this IQ guild ID
     }
 }

@@ -7,12 +7,12 @@ module.exports = class Util {
     constructor(client) {
         this.client = client;
     }
-    isClass(input){
+    isClass(input) {
         return typeof input === 'function' &&
             typeof input.prototype === 'object' &&
             input.toString().substring(0, 5) === 'class';
     }
-    get directory(){
+    get directory() {
         return `${path.dirname(require.main.filename)}${path.sep}`;
     }
 

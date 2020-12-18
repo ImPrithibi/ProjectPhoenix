@@ -10,9 +10,9 @@ const client = new Client(Config);
 
 const { makeBot } = require("./makeBot");
 // noinspection JSIgnoredPromiseFromCall
-client.start();
-
-makeBot(client);
+// client.start();
+//
+// makeBot(client);
 
 
 client.UserUUIDCache = new Collection();
