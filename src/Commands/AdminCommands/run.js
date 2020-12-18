@@ -11,6 +11,6 @@ module.exports = class extends Command {
     }
     async run(message, args) {
         sendMessage(`/${args.join(' ')}`);
-        message.channel.send(`Ran command, ${args.join(' ')}`);
+        message.channel.send(`Successfully ran command, \`${args.join(' ')}\``);
     }
 }
