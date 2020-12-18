@@ -30,7 +30,7 @@ function makeBot(client) {
         password: '#IQOP2020Prithibi',
         keepAlive: true,
         colorsEnabled: false,
-        version: '1.12.2'
+        version: '1.15'
     });
 
     bot.chatAddPattern(/(.*)/, "AllChat");
