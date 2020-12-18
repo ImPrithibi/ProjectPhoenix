@@ -83,7 +83,7 @@ module.exports = class extends Command {
 
         if (!links) return sendErrorMessage(message.channel, "Error: The specified player does not have discord linked!");
 
-        if (links !== message.member.user.tag) return sendErrorMessage(message.channel, `Error: The specified player does not have their discord linked as your discord. Please change your discord from ${message.author.tag} to ${links}`);
+        if (links !== message.member.user.tag) return sendErrorMessage(message.channel, `Error: The specified player does not have their discord linked as your discord. Please change your discord from \`${links}\` to \`${message.author.tag}\``);
 
         let queryFailed = false;
 
