@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const command = require('../Structures/Command.js');
-const Client = require('node-hypixel');
+const { Client } = require('@zikeji/hypixel');
 const discClient = require('discord.js');
 // noinspection JSCheckFunctionSignatures
 const client = new Client(require("../../config.json").hypixel_api_key);
@@ -18,10 +18,13 @@ module.exports = class extends command {
 		});
 	}
 	async run(message, _args) {
-		const guild = await client.guild.name('Intelligence Quotient');
+		const guild = await client.guild.id('5a67bfa70cf29432ef9df6cc');
 		const naughtyPlayers = new Map();
 
 		for(const member of guild.members) {
+			if(member.uuid === 'ee7ea5573003457eaf598331721f4590'){
+				continue; //Removes IQBot from XP check
+			}
 			let total = 0;
 			for(const date of Object.keys(member.expHistory)) {
 				total += member.expHistory[date];
