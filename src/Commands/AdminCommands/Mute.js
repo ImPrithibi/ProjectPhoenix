@@ -12,5 +12,6 @@ module.exports = class extends command {
     async run(message, args) {
         let muteargs = args.join(' ');
         index.sendMessage('/g mute ' + muteargs);
+        message.channel.send(`Successfully ran command, \`${'/g mute ' + muteargs}\``);
     }
 }
