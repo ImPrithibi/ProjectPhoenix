@@ -40,7 +40,7 @@ function makeBot(client) {
                 if(message.startsWith('[')){
                     player = message.split(' ')[1];
                 } else{
-                    player = message.split(' ')[1];
+                    player = message.split(' ')[0];
                 }
                 client.sendMessage(`<@480358874839252992> ${player} has requested to join the guild. Do >accept to accept them in`).then(r => r);
             }
