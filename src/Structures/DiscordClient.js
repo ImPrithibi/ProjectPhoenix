@@ -39,7 +39,10 @@ module.exports = class DiscordClient extends Client {
 
             //eslint-disable-next-line no-unused-vars
             const [cmd, ...args] = message.content.slice(this.prefix.length).trim().split(/ +/g);
-//
+            if(cmd === 'shutdown') {
+                await message.channel.send('Stopping...')
+                process.exit(0);
+            }
             const command = this.commands.get(cmd.toLowerCase()) || this.commands.get(this.aliases.get(cmd.toLowerCase()));
             if(command) {
                 if(command.requiredRoles) {
