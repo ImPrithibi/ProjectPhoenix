@@ -12,13 +12,16 @@ module.exports = class {
         this._getAllChecks(__dirname + "/checks");
     }
 
-    async check(playerData) {
+    async check(playerData, ignored) {
         let e = {};
 
-        for (let key of this.checks) {
-            let value = this.checks.get(key);
-            let re = await value.run(playerData);
-            e[value.name] = re;
+        for (let kv of this.checks) {
+            if (ignored && ignored.includes(kv[0])) continue;
+            let re = await kv[1].run(playerData);
+            e[kv[0]] = {
+                "check": kv[1],
+                "value": re
+            };
         }
 
         return e;
@@ -32,7 +35,7 @@ module.exports = class {
             if (!util.isClass(f)) continue;
             let check = new f(this.client);
             if (!(check instanceof Check)) continue;
-            this.checks.set(check.name, check);
+            this.checks.set(check.id, check);
         }
     }
 }
