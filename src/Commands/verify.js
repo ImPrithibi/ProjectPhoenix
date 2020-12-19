@@ -205,7 +205,7 @@ _If you need any help, feel free to message a staff member ❤️_`);
         if (rank === "MVP_PLUS") {
             if (playerData.rank && playerData.rank === "YOUTUBER") {
                 rank = "YOUTUBE";
-            } else if (playerData.monthlyPackageRank) {
+            } else if (playerData.monthlyPackageRank && playerData.monthlyPackageRank !== "NONE") {
                 rank = "MVP_PLUS_PLUS";
             }
         }
