@@ -3,6 +3,9 @@ const Util = require('./Util.js');
 const Database = require("../modules/DatabaseModule/Database");
 const { db_uri } = require("../../config.json");
 const { sendErrorMessage } = require("../modules/MessageUtils/MessageUtils");
+const hypixel = require('@zikeji/hypixel');
+// noinspection JSCheckFunctionSignatures
+const client = new hypixel.Client(require("../../config.json").hypixel_api_key);
 
 module.exports = class DiscordClient extends Client {
 
@@ -19,6 +22,20 @@ module.exports = class DiscordClient extends Client {
         this.aliases = new Collection();
 
         this.database = new Database(db_uri, {useNewUrlParser: true});
+
+        let self = this;
+
+        this.statusMessage = false;
+
+        this.statusInterval = setInterval(() => {
+            if (self.statusMessage) {
+                self.statusMessage = false;
+                self.setStatus(self, "Playing with amount IQ Discord Members", "discord");
+            } else {
+                self.statusMessage = true;
+                self.setStatus(self, "amount/125 members in IQ Guild", "guild");
+            }
+        }, 30000);
 
         this.once('ready', () => {
             console.log(`Logged in as ${this.user.username}!`);
@@ -90,5 +107,29 @@ module.exports = class DiscordClient extends Client {
 
     async getGuild() {
         return await this.guilds.fetch("478237364729151498"); // TODO: Make this IQ guild ID
+    }
+
+    async setStatus(_client, message, type) {
+        if (type === "guild") {
+            let amount = (await client.guild.id('5a67bfa70cf29432ef9df6cc')).members.length;
+
+            _client.user.setPresence({
+                status: 'online',
+                activity: {
+                    name: message.replace("amount", amount),
+                    type: 'PLAYING',
+                }
+            });
+        } else {
+            let amount = (await _client.getGuild()).members.cache.filter(member => !member.user.bot).size;
+
+            _client.user.setPresence({
+                status: 'online',
+                activity: {
+                    name: message.replace("amount", amount),
+                    type: 'PLAYING',
+                }
+            });
+        }
     }
 }

@@ -6,9 +6,14 @@ const Check = require("./Check");
 
 module.exports = class {
 
-
-    constructor() {
+    constructor(client) {
+        this.client = client;
         this.checks = new Collection();
+        this._getAllChecks(__dirname + "/checks");
+    }
+
+    check() {
+
     }
 
     _getAllChecks(directory) {
@@ -17,9 +22,10 @@ module.exports = class {
         const files = fs.readdirSync(directory).filter(f => f.endsWith(".js"));  // only search js files
         for (let file of files) {
             let f = require(`${directory}/${file}`);
-            if (util.isClass(f) || !(f instanceof Check)) continue;
-            let check = new f();
-
+            if (!util.isClass(f)) continue;
+            let check = new f(this.client);
+            if (!(check instanceof Check)) continue;
+            this.checks.set(check.name, check);
         }
     }
 }

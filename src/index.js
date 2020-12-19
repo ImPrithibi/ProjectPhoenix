@@ -15,7 +15,15 @@ client.start();
 makeBot(client);
 
 
+
+
 client.UserUUIDCache = new Collection();
 
 
 const rs = new RoleSync(client);
+
+
+const playerCheckMod = require("./modules/PlayerCheckModule/PlayerCheck");
+
+let pc = new playerCheckMod(client);
+

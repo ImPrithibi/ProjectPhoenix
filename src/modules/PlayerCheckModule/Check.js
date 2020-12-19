@@ -1,7 +1,7 @@
 module.exports = class {
-    constructor(client, name, options = {}) {
+    constructor(client, options = {}) {
         this.client = client
-        this.name = options.name || name;
+        this.name = options.name;
     }
 
     async run(playerData) {
