@@ -12,12 +12,19 @@ module.exports = class {
         this._getAllChecks(__dirname + "/checks");
     }
 
-    check() {
+    async check(playerData) {
+        let e = {};
 
+        for (let key of this.checks) {
+            let value = this.checks.get(key);
+            let re = await value.run(playerData);
+            e[value.name] = re;
+        }
+
+        return e;
     }
 
     _getAllChecks(directory) {
-
         let util = new Utils();
         const files = fs.readdirSync(directory).filter(f => f.endsWith(".js"));  // only search js files
         for (let file of files) {

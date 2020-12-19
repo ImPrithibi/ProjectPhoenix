@@ -121,7 +121,7 @@ module.exports = class DiscordClient extends Client {
                 }
             });
         } else {
-            let amount = (await _client.getGuild()).members.cache.filter(member => !member.user.bot).size;
+            let amount = (await _client.getGuild()).memberCount;
 
             _client.user.setPresence({
                 status: 'online',
