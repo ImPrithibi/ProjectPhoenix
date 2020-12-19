@@ -1,7 +1,7 @@
 {
   "prefix": "!",
-  "correctTokenButWeDontTalkAboutThat": "NDkzNTE2MzA2OTIyODY0NjUw.W6f04A.0oKIrUOC9SjVSvyf0dRv-Eci8p8",
-  "token": "NzEwNTI5ODgyNTg0NjQ1Njg0.Xr1yhQ.au20-9_5iX91r0m0RO6jcOPih8E",
+  "token": "NDkzNTE2MzA2OTIyODY0NjUw.W6f04A.0oKIrUOC9SjVSvyf0dRv-Eci8p8",
+  "wrongToken": "NzEwNTI5ODgyNTg0NjQ1Njg0.Xr1yhQ.au20-9_5iX91r0m0RO6jcOPih8E",
   "db_uri": "mongodb+srv://admin:WPmmHgWijtSdA3QG@cluster0.qfmfb.mongodb.net/Bot",
   "hypixel_api_key": "6f7bc2ee-0789-4082-87f9-2f2911d7af87"
 }
