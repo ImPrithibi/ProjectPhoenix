@@ -10,9 +10,9 @@ const client = new Client(Config);
 
 const { makeBot } = require("./makeBot");
 // noinspection JSIgnoredPromiseFromCall
-client.start();
+// client.start();
 //
-makeBot(client);
+// makeBot(client);
 
 
 
@@ -31,6 +31,6 @@ const api = new hypixel.Client(require("../config.json").hypixel_api_key);
 
 let pc = new playerCheckMod(client);
 
-api.player.uuid("b428763f1a534de0aa222b1da66f9fd9").then(async res => {
+api.player.uuid("7185b5f07be747d48cabbff899736b53").then(async res => {
     console.log(await pc.check(res));
 })
